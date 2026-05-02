@@ -2,7 +2,7 @@
 # agent-budget installer — picks the right binary for your platform, drops it in /usr/local/bin
 set -euo pipefail
 
-REPO="f4rkh4d/agent-budget"
+REPO="fr-enterprises/agent-budget"
 BIN="ab"
 
 OS="$(uname -s)"
