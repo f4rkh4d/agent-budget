@@ -70,11 +70,11 @@ function* iterFile(
       timestamp: obj.timestamp ?? "",
       model: obj.message.model ?? "unknown",
       tokens: {
-        input: u.input_tokens ?? 0,
-        output: u.output_tokens ?? 0,
-        cacheWrite5m: cc.ephemeral_5m_input_tokens ?? 0,
-        cacheWrite1h: cc.ephemeral_1h_input_tokens ?? 0,
-        cacheRead: u.cache_read_input_tokens ?? 0,
+        input: Number(u.input_tokens) || 0,
+        output: Number(u.output_tokens) || 0,
+        cacheWrite5m: Number(cc.ephemeral_5m_input_tokens) || 0,
+        cacheWrite1h: Number(cc.ephemeral_1h_input_tokens) || 0,
+        cacheRead: Number(u.cache_read_input_tokens) || 0,
       },
     };
   }
