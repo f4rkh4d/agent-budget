@@ -1,8 +1,16 @@
+<div align="center">
+
 # agent-budget
 
-See what your Claude Code agents are actually costing you.
+see what your Claude Code agents are actually costing you.
 
-Reads `~/.claude/projects/<encoded-cwd>/<session>.jsonl` — the transcript files Claude Code already writes — and converts them into a USD bill using current Anthropic list prices. No telemetry, no extra config, no API keys. Just `ab today` and you know.
+[![release](https://img.shields.io/github/v/release/f4rkh4d/agent-budget?style=flat-square&color=000)](https://github.com/f4rkh4d/agent-budget/releases)
+[![license](https://img.shields.io/github/license/f4rkh4d/agent-budget?style=flat-square&color=000)](LICENSE)
+[![downloads](https://img.shields.io/github/downloads/f4rkh4d/agent-budget/total?style=flat-square&color=000)](https://github.com/f4rkh4d/agent-budget/releases)
+
+</div>
+
+reads `~/.claude/projects/<encoded-cwd>/<session>.jsonl` — the transcript files Claude Code already writes — and converts them into a USD bill at current Anthropic list prices. no telemetry, no extra config, no API keys. just `ab today` and you know.
 
 ```
 $ ab today
@@ -21,27 +29,26 @@ top 5 sessions, all-time  $16709
   ...
 ```
 
-## Why
+## why
 
-Claude Code shows you tokens, not money. If you're paying per token (API or any pay-as-you-go plan), you have no idea which project is the budget hole until the invoice arrives. `agent-budget` is the answer key.
+Claude Code shows you tokens, not money. if you're paying per token (API or any pay-as-you-go plan), there's no way to see which project is the budget hole until the invoice arrives. `agent-budget` is the answer key.
 
-## Install
+## install
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/f4rkh4d/agent-budget/main/install.sh | bash
 ```
 
-Or grab a binary from [Releases](https://github.com/f4rkh4d/agent-budget/releases).
+or grab a binary from [Releases](https://github.com/f4rkh4d/agent-budget/releases).
 
-Or build from source:
+or build from source — bun, no deps:
 
 ```sh
-bun install     # nothing to install actually, no deps
 bun run build
 ./dist/ab today
 ```
 
-## Commands
+## commands
 
 | | |
 |---|---|
@@ -50,30 +57,30 @@ bun run build
 | `ab month` | last 30 days, by project |
 | `ab top [N]` | highest-spend sessions all-time (default 10) |
 | `ab project <path>` | breakdown for one project (last 60 days) |
+| `ab session <id>` | breakdown for sessions matching a substring |
 | `ab live` | tail the active session and stream cost as turns happen |
-| `ab session <id>` | breakdown for sessions matching a substring — useful for "what did this one task cost" |
 | `ab raw` | dump every assistant turn as one JSON line — pipe into `jq`, `duckdb`, whatever |
 
-`today`, `week`, `month`, `top`, `project` and `session` all accept `--json` for piping. Set `NO_COLOR=1` (or pipe stdout) to drop ANSI codes.
+`today`, `week`, `month`, `top`, `project`, `session` all accept `--json` for piping. set `NO_COLOR=1` (or pipe stdout) to drop ANSI codes.
 
-## Pricing
+## pricing
 
-Uses public Anthropic list prices (May 2026). If you're on a flat subscription (Claude Pro / Claude Max), the dollar number is theoretical — it's what the same usage would cost on the API. Useful for comparing projects against each other and for cost-modelling if you ever leave the subscription.
+uses public Anthropic list prices (May 2026). if you're on a flat subscription (Claude Pro / Claude Max), the dollar number is theoretical — it's what the same usage would cost on the API. useful for comparing projects against each other and for cost-modelling if you ever leave the subscription.
 
-Pricing table is hardcoded in [`src/pricing.ts`](src/pricing.ts) — PRs welcome when Anthropic moves prices.
+pricing table is hardcoded in [`src/pricing.ts`](src/pricing.ts) — PRs welcome when Anthropic moves prices.
 
-## What it counts
+## what it counts
 
-Per assistant turn: `input_tokens`, `output_tokens`, `cache_creation_input_tokens` split into 5m / 1h ephemeral, `cache_read_input_tokens`. Exactly what shows up in `message.usage` in the transcript.
+per assistant turn: `input_tokens`, `output_tokens`, `cache_creation_input_tokens` split into 5m / 1h ephemeral, `cache_read_input_tokens`. exactly what shows up in `message.usage` in the transcript.
 
-System tools the model invokes (web search, web fetch) are not priced separately — Anthropic charges those alongside the parent turn's tokens, so they're already included.
+system tools the model invokes (web search, web fetch) aren't priced separately — Anthropic charges those alongside the parent turn's tokens, so they're already included.
 
-## Honesty
+## honesty
 
-- This is a cost estimator, not your invoice. Real billing has rounding, regional discounts, and minimums.
-- Anthropic occasionally adds new fields to the transcript schema. If a future model fits none of the known patterns, it's priced as Sonnet — that's a soft assumption, not a guarantee.
-- Local-only. Reads files on your disk. Sends nothing anywhere.
+- this is a cost estimator, not your invoice. real billing has rounding, regional discounts, and minimums.
+- Anthropic occasionally adds new fields to the transcript schema. if a future model fits none of the known patterns, it's priced as Sonnet — that's a soft assumption, not a guarantee.
+- local-only. reads files on your disk. sends nothing anywhere.
 
-## License
+## license
 
 MIT
