@@ -51,7 +51,10 @@ bun run build
 | `ab top [N]` | highest-spend sessions all-time (default 10) |
 | `ab project <path>` | breakdown for one project (last 60 days) |
 | `ab live` | tail the active session and stream cost as turns happen |
+| `ab session <id>` | breakdown for sessions matching a substring — useful for "what did this one task cost" |
 | `ab raw` | dump every assistant turn as one JSON line — pipe into `jq`, `duckdb`, whatever |
+
+`today`, `week`, `month`, `top`, `project` and `session` all accept `--json` for piping. Set `NO_COLOR=1` (or pipe stdout) to drop ANSI codes.
 
 ## Pricing
 
