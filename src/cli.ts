@@ -17,12 +17,13 @@ import { costUsd } from "./pricing";
 
 const VERSION = "0.1.0";
 
-const RESET = "\x1b[0m";
-const BOLD = "\x1b[1m";
-const DIM = "\x1b[2m";
-const RED = "\x1b[31m";
-const GREEN = "\x1b[32m";
-const CYAN = "\x1b[36m";
+const NOCOLOR = !!process.env.NO_COLOR || !process.stdout.isTTY;
+const RESET = NOCOLOR ? "" : "\x1b[0m";
+const BOLD = NOCOLOR ? "" : "\x1b[1m";
+const DIM = NOCOLOR ? "" : "\x1b[2m";
+const RED = NOCOLOR ? "" : "\x1b[31m";
+const GREEN = NOCOLOR ? "" : "\x1b[32m";
+const CYAN = NOCOLOR ? "" : "\x1b[36m";
 
 const fmt = (n: number) =>
   n >= 100 ? `$${n.toFixed(0)}` : n >= 1 ? `$${n.toFixed(2)}` : `$${n.toFixed(3)}`;
