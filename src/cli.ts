@@ -53,20 +53,30 @@ function printBuckets(buckets: Bucket[], label: string) {
   console.log();
 }
 
-function cmdToday() {
-  printBuckets(aggToday(), `today (${ymd(new Date())})`);
+function asJson(buckets: Bucket[]): string {
+  return `${JSON.stringify(buckets.map((b) => ({ key: b.key, cost: b.cost, tokens: b.tokens, count: b.count })), null, 2)}\n`;
 }
 
-function cmdWeek() {
+function cmdToday(args: string[]) {
+  const buckets = aggToday();
+  if (args.includes("--json")) { process.stdout.write(asJson(buckets)); return; }
+  printBuckets(buckets, `today (${ymd(new Date())})`);
+}
+
+function cmdWeek(args: string[]) {
   const since = new Date();
   since.setDate(since.getDate() - 6);
-  printBuckets(aggSince(startOfDay(since), "day"), "last 7 days");
+  const buckets = aggSince(startOfDay(since), "day");
+  if (args.includes("--json")) { process.stdout.write(asJson(buckets)); return; }
+  printBuckets(buckets, "last 7 days");
 }
 
-function cmdMonth() {
+function cmdMonth(args: string[]) {
   const since = new Date();
   since.setDate(since.getDate() - 29);
-  printBuckets(aggSince(startOfDay(since), "project"), "last 30 days");
+  const buckets = aggSince(startOfDay(since), "project");
+  if (args.includes("--json")) { process.stdout.write(asJson(buckets)); return; }
+  printBuckets(buckets, "last 30 days");
 }
 
 function cmdTop(args: string[]) {
@@ -160,9 +170,9 @@ ${DIM}Reads ~/.claude/projects/. Cost = list price × tokens; subscription prici
 const [cmd, ...args] = process.argv.slice(2);
 try {
   switch (cmd) {
-    case "today": cmdToday(); break;
-    case "week": cmdWeek(); break;
-    case "month": cmdMonth(); break;
+    case "today": cmdToday(args); break;
+    case "week": cmdWeek(args); break;
+    case "month": cmdMonth(args); break;
     case "top": cmdTop(args); break;
     case "project": cmdProject(args); break;
     case "live": await cmdLive(); break;
