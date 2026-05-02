@@ -4,9 +4,9 @@
 
 see what your Claude Code agents are actually costing you.
 
-[![release](https://img.shields.io/github/v/release/f4rkh4d/agent-budget?style=flat-square&color=000)](https://github.com/f4rkh4d/agent-budget/releases)
-[![license](https://img.shields.io/github/license/f4rkh4d/agent-budget?style=flat-square&color=000)](LICENSE)
-[![downloads](https://img.shields.io/github/downloads/f4rkh4d/agent-budget/total?style=flat-square&color=000)](https://github.com/f4rkh4d/agent-budget/releases)
+[![release](https://img.shields.io/github/v/release/fr-enterprises/agent-budget?style=flat-square&color=000)](https://github.com/fr-enterprises/agent-budget/releases)
+[![license](https://img.shields.io/github/license/fr-enterprises/agent-budget?style=flat-square&color=000)](LICENSE)
+[![downloads](https://img.shields.io/github/downloads/fr-enterprises/agent-budget/total?style=flat-square&color=000)](https://github.com/fr-enterprises/agent-budget/releases)
 
 </div>
 
@@ -36,10 +36,10 @@ Claude Code shows you tokens, not money. if you're paying per token (API or any 
 ## install
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/f4rkh4d/agent-budget/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/fr-enterprises/agent-budget/main/install.sh | bash
 ```
 
-or grab a binary from [Releases](https://github.com/f4rkh4d/agent-budget/releases).
+or grab a binary from [Releases](https://github.com/fr-enterprises/agent-budget/releases).
 
 or build from source — bun, no deps:
 
