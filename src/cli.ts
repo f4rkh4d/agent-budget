@@ -94,7 +94,23 @@ function cmdProject(args: string[]) {
   const since = new Date();
   since.setDate(since.getDate() - 60);
   const all = aggSince(since, "session").filter((b) => b.key.startsWith(`${target}::`));
+  if (args.includes("--json")) { process.stdout.write(asJson(all)); return; }
   printBuckets(all, `${target} (last 60 days)`);
+}
+
+function cmdSession(args: string[]) {
+  if (args.length === 0) {
+    console.error("usage: ab session <session-id-prefix>");
+    process.exit(1);
+  }
+  const prefix = args[0]!;
+  const all = aggAll("session").filter((b) => b.key.includes(prefix));
+  if (all.length === 0) {
+    console.log(`${DIM}no session matching '${prefix}'${RESET}`);
+    return;
+  }
+  if (args.includes("--json")) { process.stdout.write(asJson(all)); return; }
+  printBuckets(all, `sessions matching '${prefix}'`);
 }
 
 function cmdRaw() {
@@ -159,6 +175,7 @@ ${BOLD}Usage${RESET}
   ab month                       last 30 days, by project
   ab top [N]                     highest-spend sessions all-time (default 10)
   ab project <path>              breakdown for one project (last 60 days)
+  ab session <id-prefix>         breakdown for sessions matching a substring
   ab live                        tail active session and stream cost
   ab raw                         dump every turn as JSON (pipe-friendly)
   ab version                     print version
@@ -175,6 +192,7 @@ try {
     case "month": cmdMonth(args); break;
     case "top": cmdTop(args); break;
     case "project": cmdProject(args); break;
+    case "session": cmdSession(args); break;
     case "live": await cmdLive(); break;
     case "raw": cmdRaw(); break;
     case "version": case "-v": case "--version": console.log(VERSION); break;
